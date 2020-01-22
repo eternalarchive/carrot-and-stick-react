@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { Icon } from 'antd';
 import axios from 'axios';
 import PopUp from './PopUp';
 import GitCount from './GitCount';
@@ -9,6 +10,7 @@ import '../../App.css';
 
 const StyledHeader = styled.header`
   display: flex;
+  justify-content: space-between;
 `;
 
 const StyledTitle = styled.h1`
@@ -20,19 +22,59 @@ const StyledTitle = styled.h1`
   overflow: hidden;
 `;
 
+const StyledResetButton = styled.button`
+  border: none;
+  background-color: inherit;
+  font-size: 30px;
+  margin: 0 10px;
+  position: relative;
+
+  &::after {
+    content: 'Commit Reset';
+    font-size: 10px;
+    position: absolute;
+    left: 0px;
+    bottom: -20px;
+  }
+
+  &:hover {
+    color: rgb(36, 120, 215);
+  }
+`;
+
+const StyledLogoutButton = styled.button`
+  border: none;
+  background-color: inherit;
+  font-size: 30px;
+  margin: 0 10px;
+  position: relative;
+
+  &::after {
+    content: 'Logout';
+    font-size: 10px;
+    position: absolute;
+    left: 5px;
+    bottom: -10px;
+  }
+
+  &:hover {
+    color: rgb(36, 120, 215);
+  }
+`;
+
 const StyledCommitAndTodo = styled.div`
   float: left;
   margin-top: 30px;
 `;
 
-const CarrotAndStick = ({ userName, token }) => {
+const CarrotAndStick = ({ userName, token, logout }) => {
   const [commitTime, setCommitTime] = useState('');
   const [gitEvent, setGitEvent] = useState([]);
   const [countNowNumber, setCountNowNumber] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [saveGoalCommit, setSaveGoalCommit] = useState(0);
   const [compareStatus, setCompareStatus] = useState('normal');
-  const [sayMoomin, setSayMoomin] = useState(`Enter your GITHUB Nickname!`);
+  const [sayMoomin, setSayMoomin] = useState(`Hello, Friend`);
 
   const getEvent = useCallback(
     data => {
@@ -82,8 +124,6 @@ const CarrotAndStick = ({ userName, token }) => {
       },
     });
 
-    console.log('1', res);
-    openPopup();
     setGitEvent([...res.data]);
     getEvent([...res.data]);
     // changeFace();
@@ -127,8 +167,8 @@ const CarrotAndStick = ({ userName, token }) => {
   return (
     <>
       <StyledHeader>
-        <StyledTitle>Carrot and Stick</StyledTitle>
         <div className="header-svg-wrapper">
+          <StyledTitle>Carrot and Stick</StyledTitle>
           <svg
             version="1.1"
             id="logo"
@@ -179,6 +219,14 @@ const CarrotAndStick = ({ userName, token }) => {
             </g>
           </svg>
         </div>
+        <section>
+          <StyledResetButton onClick={openPopup}>
+            <Icon type="setting" theme="filled" />
+          </StyledResetButton>
+          <StyledLogoutButton>
+            <Icon type="logout" onClick={() => logout()} />
+          </StyledLogoutButton>
+        </section>
       </StyledHeader>
 
       <PopUp

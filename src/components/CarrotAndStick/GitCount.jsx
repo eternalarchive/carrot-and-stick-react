@@ -56,6 +56,11 @@ const StyledRefresh = styled.span`
 const StyledRefreshImg = styled.img`
   width: 30px;
   cursor: pointer;
+
+  &:hover {
+    width: 25px;
+    height: 17px;
+  }
 `;
 
 const StyledCountNumber = styled.span`
