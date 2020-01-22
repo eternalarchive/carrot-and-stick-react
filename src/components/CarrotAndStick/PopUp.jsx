@@ -75,10 +75,9 @@ const PopUp = props => {
 
   const loadCommit = e => {
     setGoalCommit(e.target.value);
-    // if (e.key === 'Enter' && e.target.value !== '') {
-    //   saveCommit();
-    //   props.closePopup();
-    // }
+    if (e.key === 'Enter' && e.target.value !== '') {
+      saveCommit();
+    }
   };
 
   const saveCommit = () => {
@@ -104,7 +103,7 @@ const PopUp = props => {
         <StyledCommitInput
           type="number"
           placeholder="1~999 사이의 숫자를 입력해주세요."
-          onChange={e => loadCommit(e)}
+          onKeyUp={e => loadCommit(e)}
         />
         <StyledOkButton onClick={saveCommit}>OK</StyledOkButton>
         <StyledWarningText>{warningText}</StyledWarningText>
