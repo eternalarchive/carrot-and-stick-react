@@ -1,14 +1,21 @@
 import React from 'react';
+import withAuth from '../hocs/withAuth';
 
-const Home = props => {
+const Home = ({ token, history }) => {
+  console.log(token);
+
+  const logout = () => {
+    localStorage.clear();
+    history.push('/signin'); // 로그아웃시 보여줄 페이지
+  };
+
   return (
     <div>
-      Home <br />
-      <a href="https://github.com/login/oauth/authorize?client_id=9d52b5a1459f678926e6&redirect_uri=http://localhost:3000/home">
-        테스트 버튼
-      </a>
+      Home
+      <br />
+      <button onClick={logout}>로그아웃</button>
     </div>
   );
 };
 
-export default Home;
+export default withAuth(Home);
