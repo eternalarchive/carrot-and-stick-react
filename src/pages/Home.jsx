@@ -31,9 +31,8 @@ const Home = ({ token, history }) => {
   return (
     <div>
       <StyledContainer>
-        <CarrotAndStick userName={userName} token={token} />
+        <CarrotAndStick userName={userName} token={token} logout={logout} />
       </StyledContainer>
-      <button onClick={logout}>로그아웃</button>
     </div>
   );
 };
