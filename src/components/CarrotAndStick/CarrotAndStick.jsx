@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import PopUp from './PopUp';
@@ -20,83 +20,78 @@ const StyledTitle = styled.h1`
   overflow: hidden;
 `;
 
-const StyledIdInput = styled.input`
-  width: 610px;
-  height: 50px;
-  opacity: 0.8;
-  border-radius: 6px;
-  border: solid 3px rgba(235, 163, 63, 0.8);
-  margin: 0 auto;
-  padding-left: 20px;
-  font-size: inherit;
-`;
-
 const StyledCommitAndTodo = styled.div`
   float: left;
   margin-top: 30px;
 `;
 
-const CarrotAndStick = props => {
+const CarrotAndStick = ({ userName, token }) => {
   const [commitTime, setCommitTime] = useState('');
   const [gitEvent, setGitEvent] = useState([]);
   const [countNowNumber, setCountNowNumber] = useState(0);
-  const [isOpen, setIsOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [saveGoalCommit, setSaveGoalCommit] = useState(0);
   const [compareStatus, setCompareStatus] = useState('normal');
   const [sayMoomin, setSayMoomin] = useState(`Enter your GITHUB Nickname!`);
 
-  const getEvent = data => {
-    console.log('data:', data);
-    let todayCommitCount = 0;
-    let date = '';
-    const second =
-      new Date().getSeconds() < 10
-        ? `0${new Date().getSeconds()}`
-        : new Date().getSeconds();
-    const minute =
-      new Date().getMinutes() < 10
-        ? `0${new Date().getMinutes()}`
-        : new Date().getMinutes();
-    const hour =
-      new Date().getHours() < 10
-        ? `0${new Date().getHours()}`
-        : new Date().getHours();
-    setCommitTime(`${hour}:${minute}:${second} 기준`);
+  const getEvent = useCallback(
+    data => {
+      console.log('data:', data);
+      let todayCommitCount = 0;
+      let date = '';
+      const second =
+        new Date().getSeconds() < 10
+          ? `0${new Date().getSeconds()}`
+          : new Date().getSeconds();
+      const minute =
+        new Date().getMinutes() < 10
+          ? `0${new Date().getMinutes()}`
+          : new Date().getMinutes();
+      const hour =
+        new Date().getHours() < 10
+          ? `0${new Date().getHours()}`
+          : new Date().getHours();
+      setCommitTime(`${hour}:${minute}:${second} 기준`);
 
-    data.forEach(eventList => {
-      date = new Date(eventList.created_at).toDateString();
-      if (date !== new Date().toDateString()) return;
-      if (
-        eventList.type === 'PushEvent' ||
-        eventList.type === 'PullRequestEvent' ||
-        eventList.type === 'IssuesEvent'
-      ) {
-        console.log(eventList.type);
-        todayCommitCount += 1;
-      }
+      data.forEach(eventList => {
+        date = new Date(eventList.created_at).toDateString();
+        if (date !== new Date().toDateString()) return;
+        if (
+          eventList.type === 'PushEvent' ||
+          eventList.type === 'PullRequestEvent' ||
+          eventList.type === 'IssuesEvent'
+        ) {
+          console.log(eventList.type);
+          todayCommitCount += 1;
+        }
+      });
+      console.log('today', todayCommitCount);
+      setCountNowNumber(todayCommitCount);
+      return countNowNumber;
+    },
+    [countNowNumber],
+  );
+
+  const getGitHubCommit = useCallback(async () => {
+    console.log('GITHUB API를 불러오는 중...');
+    console.log('username은 ', await userName);
+    const user = await userName;
+    const res = await axios.get(`https://api.github.com/users/${user}/events`, {
+      headers: {
+        Authorization: `token ${token}`,
+      },
     });
-    console.log('today', todayCommitCount);
-    setCountNowNumber(todayCommitCount);
-    return countNowNumber;
-  };
 
-  const getGitHubCommit = async e => {
-    const userName = e.target.value;
-    if (e.key === 'Enter' && userName !== '') {
-      try {
-        console.log('GITGUB API를 불러오는 중...');
-        const res = await axios.get(
-          `https://api.github.com/users/${userName}/events`,
-        );
-        setGitEvent([...res.data]);
-        openPopup();
-        getEvent([...res.data]);
-        // changeFace();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+    console.log('1', res);
+    openPopup();
+    setGitEvent([...res.data]);
+    getEvent([...res.data]);
+    // changeFace();
+  }, [userName, token, getEvent]);
+
+  useEffect(() => {
+    if (userName !== null) getGitHubCommit();
+  }, [getGitHubCommit, userName]);
 
   const openPopup = () => {
     setIsOpen(true);
@@ -128,6 +123,7 @@ const CarrotAndStick = props => {
     }
   };
 
+  console.log('test');
   return (
     <>
       <StyledHeader>
@@ -183,12 +179,6 @@ const CarrotAndStick = props => {
             </g>
           </svg>
         </div>
-        <StyledIdInput
-          type="text"
-          placeholder="Enter your GITHUB Nickname!"
-          onKeyPress={e => getGitHubCommit(e)}
-          autoFocus
-        />
       </StyledHeader>
 
       <PopUp
@@ -204,7 +194,7 @@ const CarrotAndStick = props => {
           commitTime={commitTime}
           nowNum={countNowNumber}
           saveGoalCommit={saveGoalCommit}
-          getGitHubCommit={getGitHubCommit}
+          getGitHubCommit={userName => getGitHubCommit(userName)}
         />
         <GitPlanner />
       </StyledCommitAndTodo>

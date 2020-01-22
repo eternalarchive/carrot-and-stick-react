@@ -5,7 +5,7 @@ function withAuth(Component) {
   function WrappedComponent(props) {
     const token = localStorage.getItem('access_token');
 
-    if (token === null) {
+    if (token === 'undefined' || token === null) {
       return <Redirect to="/signin" />;
     }
     return <Component {...props} token={token} />;
