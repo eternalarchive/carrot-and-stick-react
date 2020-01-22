@@ -3,6 +3,16 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import qs from 'qs';
+import styled from 'styled-components';
+
+const StyledCallback = styled.div`
+  width: 1200px;
+  margin: 3vh auto;
+  padding: 30px 80px;
+  background-color: rgba(241, 241, 241, 0.7);
+  border-radius: 15px;
+  text-align: center;
+`;
 
 function Callback({ history, location }) {
   useEffect(() => {
@@ -33,7 +43,20 @@ function Callback({ history, location }) {
 
     getToken();
   }, [location, history]);
-  return <div>로딩중</div>; // 이 부분에 로딩바와 같은 페이지를 렌더링 해도 좋아요.
+  return (
+    <StyledCallback>
+      <p
+        style={{
+          fontSize: '60px',
+          margin: '20px 10px',
+          opacity: '0.8',
+        }}
+      >
+        Loading...
+      </p>
+      <img src="/images/moominloading.gif" alt="로딩중" />
+    </StyledCallback>
+  ); // 이 부분에 로딩바와 같은 페이지를 렌더링 해도 좋아요.
 }
 
 export default Callback;
