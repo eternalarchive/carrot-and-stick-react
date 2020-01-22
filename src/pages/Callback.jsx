@@ -16,12 +16,15 @@ function Callback({ history, location }) {
         const { data } = await axios.post(`http://localhost:3001/api/auth`, {
           code,
         });
-        console.log(data);
+
         // 유저 JWT 토큰을 해제한다.
-        const { access_token } = jwt.verify(data.access_token, 'HongBeenPark');
-        console.log('2', access_token);
+        // const { token } = jwt.verify(
+        //   data.access_token,
+        //   process.env.REACT_APP_TOKEN_KEY,
+        // );
+        const { token } = jwt.verify(data.access_token, 'HongBeenPark');
         // 유저 JWT 토큰 저장한다.
-        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('access_token', token);
         history.push('/'); // 로그인이 완료되면 보여줄 페이지
       } catch (error) {
         history.push('/error'); // api요청이 실패했을때 애러 핸들링 페이지

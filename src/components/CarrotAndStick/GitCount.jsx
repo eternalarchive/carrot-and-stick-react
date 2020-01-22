@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import '../../App.css';
 
-const StyledCounterContaier = styled.div`
+const StyledCounterContaier1 = styled.div`
   width: 210px;
   height: 70px;
   border-top: 3px solid #313131;
@@ -13,6 +13,11 @@ const StyledCounterContaier = styled.div`
   font-weight: 800;
   position: relative;
   right: 40px;
+  margin-right: 20px;
+`;
+
+const StyledCounterContaier2 = styled(StyledCounterContaier1)`
+  margin-right: -30px;
 `;
 
 const StyledCountSection = styled.section`
@@ -66,7 +71,7 @@ const GitCount = props => {
     <StyledCountSection>
       <StyledCounterHeading>YOUR COMMIT</StyledCounterHeading>
       <StyledNowTime>{props.commitTime}</StyledNowTime>
-      <StyledCounterContaier>
+      <StyledCounterContaier1>
         <StyledCountText>현재 커밋수</StyledCountText>
         <StyledRefresh>
           <StyledRefreshImg
@@ -76,13 +81,13 @@ const GitCount = props => {
           />
         </StyledRefresh>
         <StyledCountNumber>{props.nowNum}</StyledCountNumber>
-      </StyledCounterContaier>
-      <StyledCounterContaier>
+      </StyledCounterContaier1>
+      <StyledCounterContaier2>
         <StyledCountText>목표 커밋수</StyledCountText>
         <StyledCountNumber className="counter">
           {props.saveGoalCommit}
         </StyledCountNumber>
-      </StyledCounterContaier>
+      </StyledCounterContaier2>
     </StyledCountSection>
   );
 };

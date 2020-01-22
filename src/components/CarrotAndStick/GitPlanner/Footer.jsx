@@ -45,16 +45,11 @@ const Footer = props => {
         <label htmlFor="ck-complete-all">Mark all as complete</label>
       </div>
       <div style={{ display: 'inline-block' }}>
-        <StyledClearCompletedBtn>
+        <StyledClearCompletedBtn onClick={props.removeTodoAll}>
           Clear completed (
-          <span className="completed-todos">
-            {props.todos.filter(todo => todo.completed).length}
-          </span>
-          )
+          <span>{props.todos.filter(todo => todo.completed).length}</span>)
         </StyledClearCompletedBtn>
-        <strong className="active-todos">
-          {props.todos.filter(todo => !todo.completed).length}
-        </strong>{' '}
+        <strong>{props.todos.filter(todo => !todo.completed).length}</strong>{' '}
         items left
       </div>
     </StyledFooterContainer>
