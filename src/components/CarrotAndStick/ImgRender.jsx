@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import Typed from 'react-typed';
 import '../../App.css';
 
 const StyledMoominSection = styled.section`

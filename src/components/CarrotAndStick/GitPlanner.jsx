@@ -63,8 +63,6 @@ const GitPlanner = props => {
     return todos;
   };
 
-  const [todosLen, setTodosLen] = useState(renderTodo().length);
-
   const generateId = () => {
     return todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
   };
@@ -78,7 +76,6 @@ const GitPlanner = props => {
 
     if (e.key === 'Enter') {
       setTodos(todos => [todo, ...todos]);
-      setTodosLen(renderTodo().length);
       e.target.value = '';
     }
   };
@@ -121,7 +118,6 @@ const GitPlanner = props => {
         renderTodo={renderTodo}
         toggleTodo={toggleTodo}
         removeTodo={removeTodo}
-        todosLen={todosLen}
       />
       <Footer
         todos={todos}
