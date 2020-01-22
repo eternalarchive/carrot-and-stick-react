@@ -41,10 +41,10 @@ const NotFound = props => {
       <StyledNotFoundDes>
         페이지를 찾을 수 없습니다.
         <br />
-        <Link to="/">홈</Link>으로 이동해주세요.
+        <Link to="/signin">로그인 페이지</Link>로 이동해주세요.
       </StyledNotFoundDes>
-      <Link to="/">
-        <StyledImg src="/images/moomin404.png" alt="홈으로 이동하기" />
+      <Link to="/signin">
+        <StyledImg src="/images/moomin404.png" alt="로그인 페이지로 이동하기" />
       </Link>
     </StyledNotFound>
   );

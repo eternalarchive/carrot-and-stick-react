@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const StyledTodos = styled.ul`
@@ -74,12 +74,17 @@ const StyledScrollIcon = styled.div`
   left: 50%;
   transform: translateX(-50%);
   animation: ${glow} 4s infinite;
+  display: ${props => (props.todosLen > 4 && props.scroll ? 'block' : 'none')};
 `;
 
 const TodoList = props => {
+  const [scroll, setScroll] = useState(true);
+  const scrollTop = scrollY => {
+    setScroll(scrollY < (props.renderTodo().length - 5) * 49);
+  };
   return (
     <>
-      <StyledTodos>
+      <StyledTodos onScroll={({ target }) => scrollTop(target.scrollTop)}>
         {props.renderTodo().map(todo => (
           <StyleTodoItem id={todo.id} key={todo.id}>
             <StyledCheckBox
@@ -98,8 +103,8 @@ const TodoList = props => {
           </StyleTodoItem>
         ))}
       </StyledTodos>
-      <StyledScrollIcon>
-        <img src="../images/arrow.png" alt="아래로 스크롤 하세요." />
+      <StyledScrollIcon scroll={scroll} todosLen={props.todosLen}>
+        <img src="/images/arrow.png" alt="아래로 스크롤 하세요." />
       </StyledScrollIcon>
     </>
   );
