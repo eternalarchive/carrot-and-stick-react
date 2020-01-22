@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import qs from 'qs';
-import styled, { style } from 'styled-components';
+import styled from 'styled-components';
 
 const StyledCallback = styled.div`
   width: 1200px;
