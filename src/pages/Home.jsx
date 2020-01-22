@@ -1,5 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
+import CarrotAndStick from '../components/CarrotAndStick/CarrotAndStick';
 import withAuth from '../hocs/withAuth';
+
+const StyledContainer = styled.div`
+  width: 1200px;
+  margin: 3vh auto;
+  padding: 30px 80px;
+  background-color: rgba(241, 241, 241, 0.7);
+  border-radius: 15px;
+`;
 
 const Home = ({ token, history }) => {
   console.log(token);
@@ -11,8 +21,9 @@ const Home = ({ token, history }) => {
 
   return (
     <div>
-      Home
-      <br />
+      <StyledContainer>
+        <CarrotAndStick />
+      </StyledContainer>
       <button onClick={logout}>로그아웃</button>
     </div>
   );
