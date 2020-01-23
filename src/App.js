@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Callback from './pages/Callback';
+import Signin from './pages/Signin';
+import NotFound from './pages/NotFound';
+import ErrorBoundary from 'react-error-boundary';
+import StyledBackground from './components/BackgroundBubble';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const ErrorFallbackComponent = ({ error }) => <div>{error.message}</div>;
+
+const App = () => (
+  <>
+    <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/callback" component={Callback} />
+          <Route exact path="/signin" component={Signin} />
+          <Route exact path="/" component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+    </ErrorBoundary>
+    <StyledBackground />
+  </>
+);
 
 export default App;
