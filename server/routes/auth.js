@@ -9,8 +9,6 @@ router.post('/auth', async (req, res) => {
   const { code } = req.body;
   const client_id = process.env.CLIENT_ID;
   const client_secret = process.env.CLIENT_SECRET;
-  console.log(client_id);
-  console.log(client_secret);
   const response = await axios.post(
     'https://github.com/login/oauth/access_token',
     {
