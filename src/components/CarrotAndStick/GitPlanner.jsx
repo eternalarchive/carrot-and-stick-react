@@ -39,18 +39,22 @@ const GitPlanner = props => {
       id: 1,
       content: 'HTML',
       completed: true,
+      edit: false,
     },
     {
       id: 2,
       content: 'CSS',
       completed: false,
+      edit: false,
     },
     {
       id: 3,
       content: 'JavaScript',
       completed: false,
+      edit: false,
     },
   ]);
+
   const [navState, setNavState] = useState('all');
 
   const renderTodo = () => {
@@ -72,6 +76,7 @@ const GitPlanner = props => {
       id: generateId(),
       content: e.target.value,
       completed: false,
+      edit: false,
     };
 
     if (e.key === 'Enter') {
@@ -81,8 +86,25 @@ const GitPlanner = props => {
   };
 
   const removeTodo = id => {
-    console.log(id);
     setTodos(todos => todos.filter(todo => todo.id !== id));
+  };
+
+  const editBoxToggle = id => {
+    setTodos(todos =>
+      todos.map(todo =>
+        todo.id === id ? { ...todo, edit: !todo.edit } : todo,
+      ),
+    );
+  };
+
+  const editTodo = (id, key, value) => {
+    if (key === 'Enter') {
+      setTodos(todos =>
+        todos.map(todo =>
+          todo.id === id ? { ...todo, content: value, edit: !todo.edit } : todo,
+        ),
+      );
+    }
   };
 
   const toggleTodo = id => {
@@ -118,6 +140,8 @@ const GitPlanner = props => {
         renderTodo={renderTodo}
         toggleTodo={toggleTodo}
         removeTodo={removeTodo}
+        editTodo={editTodo}
+        editBoxToggle={editBoxToggle}
       />
       <Footer
         todos={todos}
