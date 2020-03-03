@@ -19,7 +19,6 @@ const Home = ({ token, history }) => {
         Authorization: `token ${token}`,
       },
     });
-    console.log('ad', data);
     return data.login;
   }); // 상태 초기값 함수로 설정. async는 promise를 반환한다. promise를 확인하려면 async await를 써줘야한다. 상위 함수(컴포넌트)는 async await를 사용할 수 없으므로 하위 함수로 사용한다.
 
