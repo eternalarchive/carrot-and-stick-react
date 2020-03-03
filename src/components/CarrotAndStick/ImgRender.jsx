@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import '../../App.css';
+import TypedContext from './TypedContext';
 
 const StyledMoominSection = styled.section`
   display: inline-block;
@@ -12,17 +13,6 @@ const StyledStatusSay = styled.h2`
   width: 1px;
   height: 1px;
   overflow: hidden;
-`;
-
-const StyledMoominSay = styled.em`
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 800;
-  color: #313131;
-  display: block;
-  text-align: center;
-  margin-bottom: 30px;
-  height: 30px;
 `;
 
 const StyledNormalEye = styled.div`
@@ -70,24 +60,48 @@ const StyledAngryDiv = styled.div`
 
 const StyledAngryMark1 = styled.div`
   display: ${props => (props.compareStatus === 'angry' ? 'block' : 'none')};
+  animation: stretch 4s infinite;
+  position: absolute;
+
+  @keyframes stretch {
+    0% {
+      transform: rotate(-2deg);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(-2deg);
+      opacity: 1;
+    }
+  }
 `;
 
 const StyledAngryMark2 = styled.div`
   display: ${props => (props.compareStatus === 'angry' ? 'block' : 'none')};
+  animation: stretch 3s infinite;
+  position: absolute;
+
+  @keyframes stretch {
+    0% {
+      transform: rotate(-2deg);
+      opacity: 0;
+    }
+    100% {
+      transform: rotate(-2deg);
+      opacity: 1;
+    }
+  }
 `;
 
 const ImgRender = props => {
   return (
     <StyledMoominSection>
       <StyledStatusSay>Moomin say</StyledStatusSay>
-      <StyledMoominSay>{props.sayMoomin}</StyledMoominSay>
+      <TypedContext feelState={props.sayMoomin} />
       <div className="moomin-svg bg_heart">
         <form className="moomin-form">
           <svg
             version="1.1"
             id="Layer_1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
             x="0px"
             y="0px"
             viewBox="0 0 113 163.9"
