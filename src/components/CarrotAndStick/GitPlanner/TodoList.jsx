@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 const StyledTodos = styled.ul`
@@ -31,6 +31,14 @@ const StyledTodoLabel = styled.label`
   text-overflow: ellipsis;
 `;
 
+const StyledTodoEdit = styled.i`
+  margin-left: 5px;
+  cursor: pointer;
+  :hover {
+    color: red;
+  }
+`;
+
 const StyledTodoRemove = styled.i`
   margin-left: 5px;
   cursor: pointer;
@@ -56,10 +64,48 @@ const StyledCheckBox = styled.input`
   }
 `;
 
+const StyleInput = styled.input`
+  display: ${props => (props.visible ? 'block' : 'none')};
+  position: absolute;
+  left: 8%;
+  width: 380px;
+  /* background-color: transparent; */
+  background-color: #fff;
+  outline: none;
+  border: none;
+  font-size: 15px;
+  color: #313131;
+  font-weight: 200;
+`;
+
+const StyledArrow = styled.div`
+  display: ${props => (props.visible > 4 ? 'block' : 'none')};
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  bottom: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: glow 4s infinite;
+
+  @keyframes glow {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.3;
+      transform: translateY(10px);
+    }
+  }
+`;
+
 const TodoList = props => {
+  const todosUl = useRef();
+
   return (
     <>
-      <StyledTodos>
+      <StyledTodos ref={todosUl}>
         {props.renderTodo().map(todo => (
           <StyleTodoItem id={todo.id} key={todo.id}>
             <StyledCheckBox
@@ -71,6 +117,15 @@ const TodoList = props => {
             <StyledTodoLabel htmlFor={`ck-${todo.id}`}>
               {todo.content}
             </StyledTodoLabel>
+            <StyleInput
+              id={`modify-${todo.id}`}
+              visible={todo.edit}
+              onKeyPress={e => props.editTodo(todo.id, e.key, e.target.value)}
+            />
+            <StyledTodoEdit
+              className="fas fa-edit"
+              onClick={() => props.editBoxToggle(todo.id)}
+            ></StyledTodoEdit>
             <StyledTodoRemove
               className="far fa-times-circle"
               onClick={() => props.removeTodo(todo.id)}
@@ -78,6 +133,11 @@ const TodoList = props => {
           </StyleTodoItem>
         ))}
       </StyledTodos>
+      <StyledArrow
+        visible={todosUl.current && todosUl.current.childElementCount}
+      >
+        <img src="/images/arrow.png" alt="아래로 스크롤 하세요." />
+      </StyledArrow>
     </>
   );
 };
