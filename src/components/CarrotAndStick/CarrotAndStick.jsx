@@ -67,18 +67,16 @@ const StyledCommitAndTodo = styled.div`
   margin-top: 30px;
 `;
 
-const CarrotAndStick = ({ userName, token, logout }) => {
+const CarrotAndStick = React.memo(({ userName, token, logout }) => {
   const [commitTime, setCommitTime] = useState('');
-  const [gitEvent, setGitEvent] = useState([]);
   const [countNowNumber, setCountNowNumber] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
   const [saveGoalCommit, setSaveGoalCommit] = useState(0);
   const [compareStatus, setCompareStatus] = useState('normal');
-  const [sayMoomin, setSayMoomin] = useState(`Hello, Friend`);
+  const [sayMoomin, setSayMoomin] = useState(['Hello Friend']);
 
   const getEvent = useCallback(
     data => {
-      console.log('data:', data);
       let todayCommitCount = 0;
       let date = '';
       const second =
@@ -103,11 +101,9 @@ const CarrotAndStick = ({ userName, token, logout }) => {
           eventList.type === 'PullRequestEvent' ||
           eventList.type === 'IssuesEvent'
         ) {
-          console.log(eventList.type);
           todayCommitCount += 1;
         }
       });
-      console.log('today', todayCommitCount);
       setCountNowNumber(todayCommitCount);
       return countNowNumber;
     },
@@ -116,7 +112,7 @@ const CarrotAndStick = ({ userName, token, logout }) => {
 
   const getGitHubCommit = useCallback(async () => {
     console.log('GITHUB API를 불러오는 중...');
-    console.log('username은 ', await userName);
+    console.log('username은 ', await userName, ' 입니다.');
     const user = await userName;
     const res = await axios.get(`https://api.github.com/users/${user}/events`, {
       headers: {
@@ -124,7 +120,7 @@ const CarrotAndStick = ({ userName, token, logout }) => {
       },
     });
 
-    setGitEvent([...res.data]);
+    // setGitEvent([...res.data]);
     getEvent([...res.data]);
     // changeFace();
   }, [userName, token, getEvent]);
@@ -144,26 +140,22 @@ const CarrotAndStick = ({ userName, token, logout }) => {
   const changeFace = goalCommit => {
     // 표정 관련
     if (countNowNumber < goalCommit / 2) {
-      console.log('angry');
       setCompareStatus('angry');
-      setSayMoomin(`What are you doing?`);
+      setSayMoomin(['Oh my god..', 'What are you doing?']);
     } else if (
       countNowNumber >= goalCommit / 2 &&
       countNowNumber < goalCommit
     ) {
       // 무표정
-      console.log('normal');
       setCompareStatus('normal');
-      setSayMoomin(`Please keep up the good work.`);
+      setSayMoomin(['Cheer up!', 'Please keep up the good work.']);
     } else if (countNowNumber >= goalCommit) {
       // 즐거움
-      console.log('happy');
       setCompareStatus('happy');
-      setSayMoomin(`You are the best!`);
+      setSayMoomin(['Good job!', 'You are the best!']);
     }
   };
 
-  console.log('test');
   return (
     <>
       <StyledHeader>
@@ -172,8 +164,6 @@ const CarrotAndStick = ({ userName, token, logout }) => {
           <svg
             version="1.1"
             id="logo"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
             x="0px"
             y="0px"
             viewBox="0 0 236 68"
@@ -254,6 +244,6 @@ const CarrotAndStick = ({ userName, token, logout }) => {
       />
     </>
   );
-};
+});
 
 export default CarrotAndStick;
