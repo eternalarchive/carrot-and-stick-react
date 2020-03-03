@@ -92,7 +92,7 @@ const StyledAngryMark2 = styled.div`
   }
 `;
 
-const ImgRender = props => {
+const ImgRender = React.memo(props => {
   return (
     <StyledMoominSection>
       <StyledStatusSay>Moomin say</StyledStatusSay>
@@ -265,6 +265,6 @@ const ImgRender = props => {
       </div>
     </StyledMoominSection>
   );
-};
+});
 
 export default ImgRender;
