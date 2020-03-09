@@ -42,8 +42,10 @@ Git Commit 수에 따른 캐릭터 표정 변화 어플리케이션 입니다. �
 
 #### > 3차 목표
 
-- 로그아웃을 구현한다.
-- 토큰의 유무에 따라 페이지를 라우팅 한다. ( Signin, Home )
+- 로그아웃 기능을 구현합니다.(로컬스토리지 토큰 제거)
+- 토큰의 유무에 따라 페이지를 라우팅 합니다. ( Signin, Home )
+- 로딩 페이지를 구현합니다.
+- Not Found 페이지를 구현합니다.
 
 <br/>
 
@@ -63,13 +65,13 @@ Git Commit 수에 따른 캐릭터 표정 변화 어플리케이션 입니다. �
 
 - W3C에서 제공한 MarkUp Validation Service 에서 이상이 없을 것.
 - 최대한 시멘틱 하게 작성할 것.
-- Express + Mongo DB로 백엔드 구축
+- Express 로 백엔드 구축 (GitHub oAuth 사용, CORS에러 방지)
 - 여러 라이브러리 경험
 - GitHub API 로드 및 가공
 - 캐릭터 및 로고 렌더링 ( SVG 활용 )
 - todo list 기능을 이용한 닉네임별로 관리되는 Git Daily Planner 개발
-- Git flow를 사용하여 협업을 할 것. 
-- Git 컨벤션을 최대한 지킬 것
+- JS코드를 React로 리펙토링 할 것.
+- Git 컨벤션을 최대한 지킬 것.
 
 <br/>
 
