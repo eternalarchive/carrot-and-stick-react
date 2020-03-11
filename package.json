@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "NODE_ENV=production PORT=80 node server/app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "dev": "node server/app.js",
